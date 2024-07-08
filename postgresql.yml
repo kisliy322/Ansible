@@ -1,0 +1,18 @@
+---
+- name: Install PostgreSQL on database servers
+  hosts: database
+  become: true
+  vars:
+    postgresql_version: "12"
+    postgresql_data_dir: "/var/lib/postgresql/{{ postgresql_version }}/main"
+  tasks:
+    - name: Install PostgreSQL
+      apt:
+        name: postgresql-{{ postgresql_version }}
+        state: present
+
+    - name: Ensure PostgreSQL service is running
+      service:
+        name: postgresql
+        state: started
+        enabled: yes
